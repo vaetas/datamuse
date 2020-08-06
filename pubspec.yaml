@@ -1,0 +1,19 @@
+name: datamuse
+version: 0.1.0
+description: Datamuse API client for Dart/Flutter provides word-finding query engine.
+homepage: https://github.com/vaetas/datamuse
+
+environment:
+  sdk: '>=2.8.0 <3.0.0'
+
+dependencies:
+  pedantic: ^1.9.2
+  dio: ^3.0.9
+  json_annotation: ^3.0.1
+  meta: ^1.2.2
+  built_value: ^7.1.0
+
+dev_dependencies:
+  build_runner: ^1.10.0
+  json_serializable: ^3.3.0
+  built_value_generator: ^7.1.0
