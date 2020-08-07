@@ -7,8 +7,8 @@ import 'package:dio/dio.dart';
 export 'src/model/metadata.dart';
 export 'src/model/relation.dart';
 export 'src/model/relation_type.dart';
-export 'src/model/suggestion.dart';
 export 'src/model/result.dart';
+export 'src/model/suggestion.dart';
 
 const _kDatamuseBaseUrl = 'https://api.datamuse.com/';
 
@@ -18,11 +18,58 @@ class Datamuse {
   /// This endpoint returns a list of words (and multiword expressions) from
   /// a given vocabulary that match a given set of constraints.
   ///
-  /// [meansLike] requires that the results have a meaning related to this string
+  /// [meansLike] require that the results have a meaning related to this string
   /// value, which can be any word or sequence of words. (This is effectively
   /// the [reverse dictionary](https://onelook.com/reverse-dictionary.shtml)
   /// feature of OneLook.)
-  Future<dynamic> query({
+  ///
+  /// [soundsLike] require that the results are pronounced similarly
+  /// to this string of characters. (If the string of characters doesn't have
+  /// a known pronunciation, the system will make its best guess using
+  /// a text-to-phonemes algorithm.)
+  ///
+  /// [spelledLike] require that the results are spelled similarly to this
+  /// string of characters, or that they match this wildcard pattern. A pattern
+  /// can include any combination of alphanumeric characters, spaces, and
+  /// two reserved characters that represent placeholders — * (which matches
+  /// any number of characters) and ? (which matches exactly one character).
+  ///
+  /// [relations] require that the results, when paired with the word in this
+  /// parameter, are in a predefined [LexicalRelation]. Any number of these
+  /// parameters may be specified any number of times. An assortment of semantic,
+  /// phonetic, and corpus-statistics-based relations are available. At this
+  /// time, these relations are available for English-language vocabularies only.
+  ///
+  /// [vocabulary] identifier for the vocabulary to use. If none is provided,
+  /// a 550,000-term vocabulary of English words and multiword expressions is
+  /// used. (The value `es` specifies a 500,000-term vocabulary of words from
+  /// Spanish-language books. The value `enwiki` specifies an approximately
+  /// 6 million-term vocabulary of article titles from the English-language
+  /// Wikipedia, updated monthly.)
+  ///
+  /// [topics] an optional hint to the system about the theme of the document
+  /// being written. Results will be skewed toward these topics. At most
+  /// 5 words can be specified. Nouns work best.
+  ///
+  /// [leftContext] an optional hint to the system about the word that appears
+  /// immediately to the left of the target word in a sentence. (At this time,
+  /// only a single word may be specified.)
+  ///
+  /// [rightContext] an optional hint to the system about the word that appears
+  /// immediately to the right of the target word in a sentence. (At this time,
+  /// only a single word may be specified.)
+  ///
+  /// [max] maximum number of results to return, not to exceed 1000. (default: 100)
+  ///
+  /// [metadata] a list of [MetadataFlag] requesting that extra lexical knowledge
+  /// be included with the results.
+  ///
+  /// [queryEcho] the presence of this parameter asks the system to prepend
+  /// a result to the output that describes the query string from some other
+  /// parameter, specified as the argument value. This is useful for looking
+  /// up metadata about specific words. For example, `/words?sp=flower&qe=sp&md=fr`
+  /// can be used to get the pronunciation and word frequency for flower.
+  Future<List<Result>> query({
     String meansLike,
     String soundsLike,
     String spelledLike,
@@ -31,9 +78,10 @@ class Datamuse {
     List<String> topics = const [],
     String leftContext,
     String rightContext,
-    List<MetadataFlag> metadata = const [],
     int max = 100,
+    List<MetadataFlag> metadata = const [],
     String queryEcho,
+    bool internationalPronunciation = false,
   }) async {
     final parameters = <String, String>{};
 
@@ -83,6 +131,10 @@ class Datamuse {
       parameters['qe'] = queryEcho;
     }
 
+    if (internationalPronunciation) {
+      parameters['ipa'] = '1';
+    }
+
     final response = await _dio.get('words', queryParameters: parameters);
     final data = response.data as List<dynamic>;
 
@@ -96,6 +148,18 @@ class Datamuse {
   /// above. The suggestions perform live spelling correction and intelligently
   /// fall back to choices that are phonetically or semantically similar when
   /// an exact prefix match can't be found.
+  ///
+  /// [query] prefix hint string; typically, the characters that the user has
+  /// entered so far into a search box. (Note: The results are sorted by
+  /// a measure of popularity. The results may include spell-corrections of the
+  /// prefix hint or semantically similar terms when exact matches cannot be
+  /// found; that is to say, the prefix hint will not necessarily form
+  /// a prefix of each result.)
+  ///
+  /// [max] maximum number of results to return, not to exceed 1000. (default: 10)
+  ///
+  /// [vocabulary] identifier for the vocabulary to use. Equivalent to
+  /// the [vocabulary] parameter in /words.
   Future<List<Suggestion>> suggest(
     String query, {
     int max = 10,

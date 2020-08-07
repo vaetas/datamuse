@@ -30,7 +30,7 @@ class MetadataFlag extends EnumClass {
 
   /// Produced in the `tags` field of the result object, prefixed by "pron:".
   /// This is the system's best guess for the pronunciation of the word or
-  /// phrase. The format of the pronunication is a space-delimited list of
+  /// phrase. The format of the pronunciation is a space-delimited list of
   /// Arpabet phoneme codes. If you add `&ipa=1` to your API query, the
   /// pronunciation string will instead use the International Phonetic Alphabet.
   /// Note that for terms that are very rare or outside of the vocabulary,
