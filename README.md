@@ -1,5 +1,7 @@
 # Datamuse API
 
+![Pub Version](https://img.shields.io/pub/v/datamuse)
+
 Library for using [Datamuse API](https://www.datamuse.com/api/) to find words using specific queries.
 
 ## Query
