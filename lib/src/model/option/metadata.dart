@@ -49,5 +49,19 @@ class MetadataFlag extends EnumClass {
   static MetadataFlag valueOf(String name) => _$valueOf(name);
 
   @override
-  String toString() => name;
+  String toString() {
+    if (this == MetadataFlag.definitions) {
+      return 'd';
+    } else if (this == MetadataFlag.parts) {
+      return 'p';
+    } else if (this == MetadataFlag.syllableCount) {
+      return 's';
+    } else if (this == MetadataFlag.pronunciation) {
+      return 'r';
+    } else if (this == MetadataFlag.frequency) {
+      return 'f';
+    }
+
+    throw ArgumentError('Unsupported metadata flag: $name');
+  }
 }

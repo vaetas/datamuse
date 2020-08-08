@@ -1,14 +1,13 @@
-import 'package:datamuse/src/model/metadata.dart';
-import 'package:datamuse/src/model/relation.dart';
-import 'package:datamuse/src/model/result.dart';
-import 'package:datamuse/src/model/suggestion.dart';
+import 'package:datamuse/src/model/option/vocabulary.dart';
 import 'package:dio/dio.dart';
 
-export 'src/model/metadata.dart';
-export 'src/model/relation.dart';
-export 'src/model/relation_type.dart';
-export 'src/model/result.dart';
-export 'src/model/suggestion.dart';
+import 'src/model/option/metadata.dart';
+import 'src/model/option/relation.dart';
+import 'src/model/response/result.dart';
+import 'src/model/response/suggestion.dart';
+
+export 'src/model/option/metadata.dart';
+export 'src/model/response/result.dart';
 
 const _kDatamuseBaseUrl = 'https://api.datamuse.com/';
 
@@ -69,12 +68,17 @@ class Datamuse {
   /// parameter, specified as the argument value. This is useful for looking
   /// up metadata about specific words. For example, `/words?sp=flower&qe=sp&md=fr`
   /// can be used to get the pronunciation and word frequency for flower.
+  ///
+  /// [internationalPronunciation] The format of the pronunication is
+  /// a space-delimited list of [Arpabet](https://en.wikipedia.org/wiki/ARPABET)
+  /// phoneme codes. If you add [MetadataFlag.pronunciation] to your query, the pronunciation
+  /// string will instead use the [International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet).
   Future<List<Result>> query({
     String meansLike,
     String soundsLike,
     String spelledLike,
     List<LexicalRelation> relations = const [],
-    String vocabulary,
+    Vocabulary vocabulary = Vocabulary.basic,
     List<String> topics = const [],
     String leftContext,
     String rightContext,
@@ -98,11 +102,11 @@ class Datamuse {
     }
 
     for (var r in relations) {
-      parameters[r.typeQuery] = r.parameter;
+      parameters[r.typeQuery] = r.value;
     }
 
-    if (vocabulary != null) {
-      parameters[vocabulary] = vocabulary;
+    if (vocabulary != Vocabulary.basic) {
+      parameters['v'] = vocabulary.toString();
     }
 
     if (topics.isNotEmpty) {
@@ -118,7 +122,7 @@ class Datamuse {
     }
 
     if (max > 1000) {
-      throw ArgumentError('Maximum number of result cannot exceed 1000.');
+      throw ArgumentError('Maximum number of results cannot exceed 1000.');
     } else {
       parameters['max'] = '$max';
     }
@@ -163,7 +167,7 @@ class Datamuse {
   Future<List<Suggestion>> suggest(
     String query, {
     int max = 10,
-    String vocabulary,
+    Vocabulary vocabulary = Vocabulary.basic,
   }) async {
     final parameters = <String, String>{};
 
@@ -175,8 +179,8 @@ class Datamuse {
       parameters['max'] = '$max';
     }
 
-    if (vocabulary != null) {
-      parameters['v'] = vocabulary;
+    if (vocabulary != Vocabulary.basic) {
+      parameters['v'] = vocabulary.toString();
     }
 
     final response = await _dio.get('sug', queryParameters: parameters);

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'result.g.dart';
 
@@ -21,8 +22,8 @@ class Result {
   final String definitionHeadword;
 
   Result({
-    this.word,
-    this.score,
+    @required this.word,
+    @required this.score,
     this.tags,
     this.numSyllables,
     this.definitions,

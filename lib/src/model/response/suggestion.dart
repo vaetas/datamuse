@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
 part 'suggestion.g.dart';
 
@@ -7,7 +8,10 @@ class Suggestion {
   final String word;
   final int score;
 
-  Suggestion(this.word, this.score);
+  Suggestion({
+    @required this.word,
+    @required this.score,
+  });
 
   factory Suggestion.fromJson(Map<String, dynamic> json) =>
       _$SuggestionFromJson(json);

@@ -8,7 +8,7 @@ Future<void> main() async {
   // });
 
   final resultList = await client.query(
-    meansLike: 'word',
+    meansLike: 'tape',
     metadata: [
       MetadataFlag.frequency,
       MetadataFlag.syllableCount,
@@ -17,5 +17,5 @@ Future<void> main() async {
     internationalPronunciation: true,
   );
 
-  print(resultList);
+  print(resultList.first);
 }
