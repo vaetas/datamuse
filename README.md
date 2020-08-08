@@ -1,6 +1,6 @@
 # Datamuse API
 
-Library for using [Datamuse API](http://www.datamuse.com/api/) to find words using specific queries.
+Library for using [Datamuse API](https://www.datamuse.com/api/) to find words using specific queries.
 
 ## Query
 
