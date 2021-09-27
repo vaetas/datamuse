@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import 'relation_type.dart';
 
 /// Define lexical relation for words in result.
@@ -8,8 +6,8 @@ class LexicalRelation {
   final String value;
 
   const LexicalRelation({
-    @required this.type,
-    @required this.value,
+    required this.type,
+    required this.value,
   });
 
   String get typeQuery => 'rel_$type';

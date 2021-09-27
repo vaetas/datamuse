@@ -6,12 +6,10 @@ part of 'suggestion.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Suggestion _$SuggestionFromJson(Map<String, dynamic> json) {
-  return Suggestion(
-    word: json['word'] as String,
-    score: json['score'] as int,
-  );
-}
+Suggestion _$SuggestionFromJson(Map<String, dynamic> json) => Suggestion(
+      word: json['word'] as String,
+      score: json['score'] as int,
+    );
 
 Map<String, dynamic> _$SuggestionToJson(Suggestion instance) =>
     <String, dynamic>{

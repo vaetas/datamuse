@@ -1,10 +1,10 @@
-import 'package:datamuse/src/model/option/vocabulary.dart';
 import 'package:dio/dio.dart';
 
-import 'model/option/metadata.dart';
-import 'model/option/relation.dart';
-import 'model/response/result.dart';
-import 'model/response/suggestion.dart';
+import 'option/metadata.dart';
+import 'option/relation.dart';
+import 'option/vocabulary.dart';
+import 'response/result.dart';
+import 'response/suggestion.dart';
 
 const _kDatamuseBaseUrl = 'https://api.datamuse.com/';
 
@@ -71,17 +71,17 @@ class Datamuse {
   /// phoneme codes. If you add [MetadataFlag.pronunciation] to your query, the pronunciation
   /// string will instead use the [International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet).
   Future<List<Result>> query({
-    String meansLike,
-    String soundsLike,
-    String spelledLike,
+    String? meansLike,
+    String? soundsLike,
+    String? spelledLike,
     List<LexicalRelation> relations = const [],
     Vocabulary vocabulary = Vocabulary.basic,
     List<String> topics = const [],
-    String leftContext,
-    String rightContext,
+    String? leftContext,
+    String? rightContext,
     int max = 100,
     List<MetadataFlag> metadata = const [],
-    String queryEcho,
+    String? queryEcho,
     bool internationalPronunciation = false,
   }) async {
     final parameters = <String, String>{};

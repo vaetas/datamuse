@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'result.g.dart';
 
@@ -9,21 +8,21 @@ class Result {
 
   final int score;
 
-  @JsonKey(nullable: true)
-  final List<dynamic> tags;
+  @JsonKey()
+  final List<dynamic>? tags;
 
-  @JsonKey(nullable: true)
-  final int numSyllables;
+  @JsonKey()
+  final int? numSyllables;
 
-  @JsonKey(name: 'defs', nullable: true)
-  final List<dynamic> definitions;
+  @JsonKey(name: 'defs')
+  final List<dynamic>? definitions;
 
-  @JsonKey(name: 'defHeadword', nullable: true)
-  final String definitionHeadword;
+  @JsonKey(name: 'defHeadword')
+  final String? definitionHeadword;
 
   Result({
-    @required this.word,
-    @required this.score,
+    required this.word,
+    required this.score,
     this.tags,
     this.numSyllables,
     this.definitions,

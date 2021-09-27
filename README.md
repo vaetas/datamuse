@@ -10,18 +10,18 @@ You can find words using specific queries.
 
 ```dart
 Future<List<Result>> query({
-  String meansLike,
-  String soundsLike,
-  String spelledLike,
-  List<LexicalRelation> relations = const [],
-  Vocabulary vocabulary,
-  List<String> topics = const [],
-  String leftContext,
-  String rightContext,
-  int max = 100,
-  List<MetadataFlag> metadata = const [],
-  String queryEcho,
-  bool internationalPronunciation = false,
+    String? meansLike,
+    String? soundsLike,
+    String? spelledLike,
+    List<LexicalRelation> relations = const [],
+    Vocabulary vocabulary = Vocabulary.basic,
+    List<String> topics = const [],
+    String? leftContext,
+    String? rightContext,
+    int max = 100,
+    List<MetadataFlag> metadata = const [],
+    String? queryEcho,
+    bool internationalPronunciation = false,
 });
 ```
 
@@ -32,8 +32,8 @@ for autocompletion.
 
 ```dart
 Future<List<Suggestion>> suggest(
-  String query, {
-  int max = 10,
-  Vocabulary vocabulary = Vocabulary.basic,
+    String query, {
+    int max = 10,
+    Vocabulary vocabulary = Vocabulary.basic,
 });
 ```
