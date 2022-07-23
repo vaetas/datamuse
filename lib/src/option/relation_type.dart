@@ -1,6 +1,6 @@
 ///  Related word constraints: require that the results, when paired with the
 ///  word in this parameter, are in a predefined lexical relation indicated
-///  by [code]. Any number of these parameters may be specified any number of
+///  by code. Any number of these parameters may be specified any number of
 ///  times. An assortment of semantic, phonetic, and corpus-statistics-based
 ///  relations are available. At this time, these relations are available for
 ///  English-language vocabularies only.
@@ -21,7 +21,8 @@ class LexicalRelationType {
   /// example: ocean → sea
   static const LexicalRelationType syn = LexicalRelationType._('syn');
 
-  /// "Triggers" (words that are statistically associated with the query word in the same piece of text.)
+  /// "Triggers" (words that are statistically associated with the query word in
+  /// the same piece of text.)
   /// example: cow → milking
   static const LexicalRelationType trg = LexicalRelationType._('trg');
 
@@ -49,7 +50,8 @@ class LexicalRelationType {
   /// example: wreak → havoc
   static const LexicalRelationType bga = LexicalRelationType._('bga');
 
-  /// Frequent predecessors (w′ such that P(w|w′) ≥ 0.001, per Google Books Ngrams)
+  /// Frequent predecessors
+  /// (w′ such that P(w|w′) ≥ 0.001, per Google Books Ngrams)
   /// example: havoc → wreak
   static const LexicalRelationType bgb = LexicalRelationType._('bgb');
 

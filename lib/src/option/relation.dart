@@ -1,14 +1,14 @@
-import 'relation_type.dart';
+import 'package:datamuse/src/option/relation_type.dart';
 
 /// Define lexical relation for words in result.
 class LexicalRelation {
-  final LexicalRelationType type;
-  final String value;
-
   const LexicalRelation({
     required this.type,
     required this.value,
   });
+
+  final LexicalRelationType type;
+  final String value;
 
   String get typeQuery => 'rel_$type';
 

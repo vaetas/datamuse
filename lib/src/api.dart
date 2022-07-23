@@ -1,10 +1,9 @@
+import 'package:datamuse/src/option/metadata.dart';
+import 'package:datamuse/src/option/relation.dart';
+import 'package:datamuse/src/option/vocabulary.dart';
+import 'package:datamuse/src/response/result.dart';
+import 'package:datamuse/src/response/suggestion.dart';
 import 'package:dio/dio.dart';
-
-import 'option/metadata.dart';
-import 'option/relation.dart';
-import 'option/vocabulary.dart';
-import 'response/result.dart';
-import 'response/suggestion.dart';
 
 const _kDatamuseBaseUrl = 'https://api.datamuse.com/';
 
@@ -32,9 +31,10 @@ class Datamuse {
   ///
   /// [relations] require that the results, when paired with the word in this
   /// parameter, are in a predefined [LexicalRelation]. Any number of these
-  /// parameters may be specified any number of times. An assortment of semantic,
-  /// phonetic, and corpus-statistics-based relations are available. At this
-  /// time, these relations are available for English-language vocabularies only.
+  /// parameters may be specified any number of times. An assortment of
+  /// semantic, phonetic, and corpus-statistics-based relations are available.
+  /// At this time, these relations are available for English-language
+  /// vocabularies only.
   ///
   /// [vocabulary] identifier for the vocabulary to use. If none is provided,
   /// a 550,000-term vocabulary of English words and multiword expressions is
@@ -55,10 +55,11 @@ class Datamuse {
   /// immediately to the right of the target word in a sentence. (At this time,
   /// only a single word may be specified.)
   ///
-  /// [max] maximum number of results to return, not to exceed 1000. (default: 100)
+  /// [max] maximum number of results to return, not to exceed 1000.
+  /// (default: 100)
   ///
-  /// [metadata] a list of [MetadataFlag] requesting that extra lexical knowledge
-  /// be included with the results.
+  /// [metadata] a list of [MetadataFlag] requesting that extra lexical
+  /// knowledge be included with the results.
   ///
   /// [queryEcho] the presence of this parameter asks the system to prepend
   /// a result to the output that describes the query string from some other
@@ -68,8 +69,8 @@ class Datamuse {
   ///
   /// [internationalPronunciation] The format of the pronunication is
   /// a space-delimited list of [Arpabet](https://en.wikipedia.org/wiki/ARPABET)
-  /// phoneme codes. If you add [MetadataFlag.pronunciation] to your query, the pronunciation
-  /// string will instead use the [International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet).
+  /// phoneme codes. If you add [MetadataFlag.pronunciation] to your query, the
+  /// pronunciation string will instead use the [International Phonetic Alphabet](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet).
   Future<List<Result>> query({
     String? meansLike,
     String? soundsLike,
@@ -98,7 +99,7 @@ class Datamuse {
       parameters['sp'] = spelledLike;
     }
 
-    for (var r in relations) {
+    for (final r in relations) {
       parameters[r.typeQuery] = r.value;
     }
 
@@ -136,10 +137,14 @@ class Datamuse {
       parameters['ipa'] = '1';
     }
 
-    final response = await _dio.get('words', queryParameters: parameters);
-    final data = response.data as List<dynamic>;
+    final response = await _dio.get<List<dynamic>>(
+      'words',
+      queryParameters: parameters,
+    );
 
-    return data.map((e) => Result.fromJson(e)).toList();
+    return response.data!
+        .map((dynamic e) => Result.fromJson(e as Map<String, Object?>))
+        .toList();
   }
 
   /// This resource is useful as a backend for “autocomplete” widgets on
@@ -157,7 +162,8 @@ class Datamuse {
   /// found; that is to say, the prefix hint will not necessarily form
   /// a prefix of each result.)
   ///
-  /// [max] maximum number of results to return, not to exceed 1000. (default: 10)
+  /// [max] maximum number of results to return, not to exceed 1000.
+  /// (default: 10)
   ///
   /// [vocabulary] identifier for the vocabulary to use. Equivalent to
   /// the [vocabulary] parameter in /words.
@@ -180,9 +186,13 @@ class Datamuse {
       parameters['v'] = vocabulary.toString();
     }
 
-    final response = await _dio.get('sug', queryParameters: parameters);
-    final data = response.data as List<dynamic>;
+    final response = await _dio.get<List<dynamic>>(
+      'sug',
+      queryParameters: parameters,
+    );
 
-    return data.map((e) => Suggestion.fromJson(e)).toList();
+    return response.data!
+        .map((dynamic e) => Suggestion.fromJson(e as Map<String, Object?>))
+        .toList();
   }
 }

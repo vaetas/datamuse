@@ -17,12 +17,13 @@ class MetadataFlag {
   /// "adv" means adverb, and "u" means that the part of speech is none of
   /// these or cannot be determined. Multiple entries will be added when the
   /// word's part of speech is ambiguous, with the most popular part of speech
-  /// listed first. This field is derived from an analysis of Google Books Ngrams data.
+  /// listed first. This field is derived from an analysis
+  /// of Google Books Ngrams data.
   static const MetadataFlag parts = MetadataFlag._('parts');
 
-  /// Produced in the `numSyllables` field of the result object. In certain cases
-  /// the number of syllables may be ambiguous, in which case the system's best
-  /// guess is chosen based on the entire query.
+  /// Produced in the `numSyllables` field of the result object. In certain
+  /// cases the number of syllables may be ambiguous, in which case the
+  /// system's best guess is chosen based on the entire query.
   static const MetadataFlag syllableCount = MetadataFlag._('syllableCount');
 
   /// Produced in the `tags` field of the result object, prefixed by "pron:".
