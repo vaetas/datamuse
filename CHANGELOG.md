@@ -1,3 +1,8 @@
+## 0.3.0
+
+* Make `score` for `Result` nullable
+* Update dependencies
+
 ## 0.2.0
 
 * Migrate to null safety
