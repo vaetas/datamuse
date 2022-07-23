@@ -8,7 +8,7 @@ part of 'result.dart';
 
 Result _$ResultFromJson(Map<String, dynamic> json) => Result(
       word: json['word'] as String,
-      score: json['score'] as int,
+      score: json['score'] as int?,
       tags: json['tags'] as List<dynamic>?,
       numSyllables: json['numSyllables'] as int?,
       definitions: json['defs'] as List<dynamic>?,

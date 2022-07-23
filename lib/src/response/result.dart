@@ -6,7 +6,7 @@ part 'result.g.dart';
 class Result {
   final String word;
 
-  final int score;
+  final int? score;
 
   @JsonKey()
   final List<dynamic>? tags;

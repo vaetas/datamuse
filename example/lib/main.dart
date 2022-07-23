@@ -3,9 +3,8 @@ import 'package:datamuse/datamuse.dart';
 Future<void> main() async {
   final client = Datamuse();
 
-  // client.suggest('duc').then((value) {
-  // print(value);
-  // });
+  final suggestResult = await client.suggest('duc');
+  print('[main] ${suggestResult}');
 
   final resultList = await client.query(
     meansLike: 'tape',
